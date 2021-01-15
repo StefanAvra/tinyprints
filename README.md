@@ -3,7 +3,9 @@ Flask web app that lets anyone create small prints that will be printed on my th
 
 
 ## todo
-- keep it simple - 1 module
+- database
+    - models
+    - setup flask migrate
 - /new
     - text editor
     - image editor
