@@ -7,12 +7,13 @@
 <h1>create a tiny print</h1>
 <p>{{ msg }} </p>
 <div>
-  <textarea name="tiny print text" id="tinytext" cols="32" rows="24"
-    placeholder="you can use 32 characters, per line and 24 lines." maxlength="792" style="overflow: hidden; resize: none; font-family: monospace"
-    form="newtinyprint" required autocomplete="off" spellcheck="false" wrap="hard"></textarea>
-  <form action="" id="newtinyprint">
-    <input type="text" placeholder="Title" maxlength="32" autocomplete="off" spellcheck="false">
-    <input type="submit" value="Send it!">
+  <form action="" method="POST" id="newtinyprint">
+    {{ form.tiny_text(cols=32, rows=24, placeholder='you can use 32 characters, per line and 24 lines.',
+    maxlength=792, required=true, autocomplete='off', spellcheck=false, wrap='hard') }}
+    <br>
+    {{ form.hidden_tag() }}
+    {{ form.title(placeholder='title', maxlength=32, autocomplete='off', spellcheck=false) }}
+    {{ form.submit() }}
   </form>
 </div>
 <script src="{{ url_for('static', filename = 'tinytext.js') }}"></script>
