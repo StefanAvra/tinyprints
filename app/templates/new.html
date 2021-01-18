@@ -15,6 +15,7 @@
     {{ form.title(placeholder='title', maxlength=32, autocomplete='off', spellcheck=false) }}
     {{ form.submit() }}
   </form>
+  <p>by posting you accept the <span>rules</span></p>
 </div>
 <script src="{{ url_for('static', filename = 'tinytext.js') }}"></script>
 {% endblock %}

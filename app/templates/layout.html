@@ -3,6 +3,7 @@
 
 <head>
   {% block head %}
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <title>{% block title %}{% endblock %} 🖨️</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
@@ -29,9 +30,7 @@
   </nav>
   <div id="content">{% block content %}{% endblock %}</div>
   <div id="footer">
-    {% block footer %}
-    👨🏻‍💻 <a href="https://avra.io/" target="_blank">avra</a>
-    {% endblock %}
+    <p> 👨🏻‍💻 <a href="https://avra.io/" target="_blank">avra</a></p>
   </div>
 
 </body>
