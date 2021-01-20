@@ -5,19 +5,25 @@
 {% endblock %}
 {% block content %}
 <h1>{{ tiny_text.title }}</h1>
+{% if not tiny_text.voting_closed %}
 <form id="upvote-form" action="" method="POST" class="upvote" hidden>
     {{upvote_form.tiny_text_id(type='hidden')}}
     {{upvote_form.hidden_tag()}}
     {{upvote_form.submit_upvote()}}
 </form>
+{% endif %}
 <div>
     <!-- I should probably use pre instead of textarea for better styling but this seems to be ok for now.  -->
     <div class="tiny-print">
-        <h3><span class="vote-counter">{{tiny_text.votes}}</span>{% if tiny_text.id in past_upvotes %}
+        <h3><span class="vote-counter">{{tiny_text.votes}}</span>
+            {% if not tiny_text.voting_closed %}
+            {% if tiny_text.id in past_upvotes %}
             <span title="you already upvoted this one" class="upvoted">▵</span>
             {% else %}
             <span title="upvote" class="upvote-possible" onclick="upvote({{tiny_text.id}})">▲</span>
-            {% endif %}{{ tiny_text.title }}
+            {% endif %}
+            {% endif %}
+            {{ tiny_text.title }}
         </h3>
         <textarea name="tinytext" cols="32" rows="24" disabled wrap="hard" spellcheck="false"
             class="tiny-text-area">{{ tiny_text.text }}</textarea>

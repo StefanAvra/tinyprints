@@ -14,6 +14,11 @@ pip install -r requirements.txt
 
 You can run the app by executing ```flask run```. 
 
+### Dev
+
+Flask will look for environment variables in ```.flaskenv```.
+
+```flask run``` uses ```run.py``` as an entry point. If you start ```flask shell``` the database and TinyText model will be avaliable as shell context ```db```  and ```TinyText``` respectively.
 
 ## Contributing
 Contributions are welcome!

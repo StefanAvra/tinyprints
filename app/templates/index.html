@@ -4,7 +4,7 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-{%if upcote_form %}
+{%if upvote_form %}
 <form id="upvote-form" action="" method="POST" class="upvote" hidden>
   {{upvote_form.tiny_text_id(type='hidden')}}
   {{upvote_form.hidden_tag()}}
