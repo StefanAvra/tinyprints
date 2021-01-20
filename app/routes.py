@@ -25,6 +25,10 @@ def init_session():
 @app.route('/new', methods=['GET', 'POST'])
 @app.route('/hot', methods=['GET', 'POST'])
 def index():
+    site_data = {
+        'title': '',
+        'msg': ''
+    }
     upvote_form = VoteForm()
     if upvote_form.validate_on_submit():
         t = TinyText.query.get(upvote_form.tiny_text_id.data)
@@ -46,8 +50,10 @@ def index():
     if 'hot' in rule.rule:
         t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=False).all()
     else:
+        if '/' == rule.rule:
+            site_data['title'] = 'home'
         t_list = TinyText.query.order_by(TinyText.id.desc()).filter_by(voting_closed=False).all()
-    return render_template('index.html', tiny_texts=t_list, upvote_form=upvote_form, past_upvotes=session.get('voted'))
+    return render_template('index.html', tiny_texts=t_list, upvote_form=upvote_form, past_upvotes=session.get('voted'), site_data=site_data)
 
 @app.route('/t/')
 @app.route('/t/<id>', methods=['GET', 'POST'])
@@ -116,7 +122,12 @@ def create():
 
 @app.route('/top')
 def top():
-    return redirect(url_for('index'))
+    site_data = {
+        'title': 'past winners',
+        'msg': ''
+    }
+    t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=True).all()
+    return render_template('index.html', tiny_texts=t_list, site_data=site_data)
 
 
 @app.route('/api')
