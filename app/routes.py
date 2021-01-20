@@ -89,21 +89,6 @@ def view_single(id=None):
 @app.route('/create', methods=['GET', 'POST'])
 def create():
     form = TinyForm()
-    if form.is_submitted():
-        if form.validate():
-            t = TinyText(text=ascii(form.tiny_text.data), title=ascii(form.title.data))
-            tiny_pw = f'{random.choice(WORDS)}#{random.randint(0, 999)}'
-            t.pw_hash = generate_password_hash(tiny_pw)
-            db.session.add(t)
-            db.session.commit()
-            flash('this is your tiny password:')
-            flash(tiny_pw, category='pw')
-            flash('you can use it to delete the post')
-            print(t.text)
-            return redirect(url_for('view_single', id=t.id))
-        else:
-            flash('no.')
-            return redirect(url_for('view_single', id=t.id))
     msgs = [
         'send me a haiku',
         'can you make ascii art?',
@@ -121,6 +106,21 @@ def create():
         'don\'t spam',
         'what is something nobody knows?'
     ]
+    if form.is_submitted():
+        if form.validate():
+            t = TinyText(text=ascii(form.tiny_text.data), title=ascii(form.title.data))
+            tiny_pw = f'{random.choice(WORDS)}#{random.randint(0, 999)}'
+            t.pw_hash = generate_password_hash(tiny_pw)
+            db.session.add(t)
+            db.session.commit()
+            flash('this is your tiny password:')
+            flash(tiny_pw, category='pw')
+            flash('you can use it to delete the post')
+            print(t.text)
+            return redirect(url_for('view_single', id=t.id))
+        else:
+            flash('no.')
+            return redirect(url_for('create'))
     return render_template('create.html', msg=random.choice(msgs), form=form)
 
 
