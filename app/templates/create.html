@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}new tiny print{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>create a tiny print</h1>
+<p>{{ msg }} </p>
+<div>
+  <form action="" method="POST" id="createtinyprint">
+    {{ form.tiny_text(cols=32, rows=24, placeholder='you can use 32 characters, per line and 24 lines.',
+    maxlength=792, required=true, autocomplete='off', spellcheck='false', wrap='hard', class='tiny-text-area', id='new-tiny-text-area') }}
+    <br>
+    {{ form.hidden_tag() }}
+    {{ form.title(placeholder='title', maxlength=32, autocomplete='off', spellcheck=false, id='new-tiny-title') }}
+    {{ form.submit() }}
+  </form>
+  <p class="rules">by posting you accept the <span onclick="showRules()">rules</span>.</p>
+</div>
+<div id="rules-toast">
+  <ul id="rules-list">
+    <li>Your post will be public, everyone can see it.</li>
+    <li>Don't post racist content.</li>
+    <li>Don't post harrassing content.</li>
+    <li>Do not post spam/advertisements.</li>
+    <li>Posts will be deleted if they do not conform to the rules or upset me.</li>
+  </ul>
+  
+</div>
+{% endblock %}

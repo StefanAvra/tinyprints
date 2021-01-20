@@ -6,32 +6,31 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <title>{% block title %}{% endblock %} 🖨️</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-    crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery-3.5.1.min.js') }}">\x3C/script>')
-  </script>
   {% endblock %}
 </head>
 
 <body>
+  <nav class="nav">
+    <a href="/">🏠 home</a>
+    <a href="/new">✨ new</a>
+    <a href="/hot">🔥 hot</a>
+    <a href="/top">🏆 top</a>
+    <a href="/create">📄 create</a>
+  </nav>
   {% with messages = get_flashed_messages() %}
   {% if messages %}
-  <ul>
+  <ul class="msgs">
     {% for message in messages %}
     <li>{{ message }}</li>
     {% endfor %}
   </ul>
   {% endif %}
   {% endwith %}
-  <nav>
-    <a href="/">home</a>
-    <a href="/new">new</a>
-  </nav>
   <div id="content">{% block content %}{% endblock %}</div>
   <div id="footer">
-    <p> 👨🏻‍💻 <a href="https://avra.io/" target="_blank" rel="noopener">avra</a></p>
+    <p><a href="https://avra.io/" target="_blank" rel="noopener">👨🏻‍💻 avra</a></p>
   </div>
+  <script src="{{ url_for('static', filename = 'tinyprint.js') }}"></script>
 
 </body>
 
