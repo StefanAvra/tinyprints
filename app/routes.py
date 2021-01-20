@@ -103,6 +103,7 @@ def create():
             return redirect(url_for('view_single', id=t.id))
         else:
             flash('no.')
+            return redirect(url_for('view_single', id=t.id))
     msgs = [
         'send me a haiku',
         'can you make ascii art?',
