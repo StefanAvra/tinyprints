@@ -29,6 +29,7 @@ def index():
         'title': '',
         'msg': ''
     }
+    page = request.args.get('p', 1, type=int)
     upvote_form = VoteForm()
     if upvote_form.validate_on_submit():
         t = TinyText.query.get(upvote_form.tiny_text_id.data)
@@ -48,12 +49,14 @@ def index():
     
     rule = request.url_rule
     if 'hot' in rule.rule:
-        t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=False).all()
+        t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=False).paginate(
+            page, app.config['POSTS_PER_PAGE'], False)
     else:
         if '/' == rule.rule:
             site_data['title'] = 'home'
-        t_list = TinyText.query.order_by(TinyText.id.desc()).filter_by(voting_closed=False).all()
-    return render_template('index.html', tiny_texts=t_list, upvote_form=upvote_form, past_upvotes=session.get('voted'), site_data=site_data)
+        t_list = TinyText.query.order_by(TinyText.id.desc()).filter_by(voting_closed=False).paginate(
+            page, app.config['POSTS_PER_PAGE'], False)
+    return render_template('index.html', tiny_texts=t_list.items, upvote_form=upvote_form, past_upvotes=session.get('voted'), site_data=site_data)
 
 @app.route('/t/')
 @app.route('/t/<id>', methods=['GET', 'POST'])
@@ -126,8 +129,10 @@ def top():
         'title': 'past winners',
         'msg': ''
     }
-    t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=True).all()
-    return render_template('index.html', tiny_texts=t_list, site_data=site_data)
+    page = request.args.get('p', 1, type=int)
+    t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=True).paginate(
+        page, app.config['POSTS_PER_PAGE'], False)
+    return render_template('index.html', tiny_texts=t_list.items, site_data=site_data)
 
 
 @app.route('/api')
