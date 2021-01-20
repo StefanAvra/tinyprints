@@ -47,13 +47,18 @@ a {
     text-decoration: underline;
     cursor: pointer;
 }
+.delete-container {
+    margin-top: 1rem;
+}
+#delete-hint {
+    font-size: 0.7rem;
+}
 #rules-toast {
     visibility: hidden;
     min-width: 250px;
-    margin-left: -125px;
+    margin: 0 auto;
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
-    /* text-align: center; */
     border-radius: 2px;
     border-color: black;
     border-style: solid;
@@ -61,7 +66,6 @@ a {
     padding: 16px;
     position: fixed;
     z-index: 1;
-    left: 50%;
     bottom: 30px;
 }
 #rules-toast.show {

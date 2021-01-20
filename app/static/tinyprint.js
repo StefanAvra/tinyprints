@@ -53,6 +53,12 @@ function upvote(id) {
     document.getElementById('upvote-form').submit();
 }
 
+function showDeletePWInput() {
+    let delForm = document.getElementById('delete-form');
+    delForm.hidden = !delForm.hidden;
+    let delHint = document.getElementById('delete-hint');
+    delHint.hidden = !delHint.hidden;
+}
 
 
 let infoStyles = [

@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, session, url_for, request
 from app import app, db
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.forms import TinyForm, VoteForm
+from app.forms import TinyForm, VoteForm, DeleteForm
 from app.models import TinyText
 import random
 
@@ -41,8 +41,6 @@ def index():
                 voted_list = session.pop('voted')
                 voted_list.append(t.id)
                 session['voted'] = voted_list
-                print(f'upvote for {t}')
-                print(session['voted'])
             else:
                 print(f'session already voted for {t.id}')
         return redirect(url_for('index'))
@@ -62,7 +60,6 @@ def index():
 @app.route('/t/<id>', methods=['GET', 'POST'])
 def view_single(id=None):
     t = TinyText.query.get(id)
-    print(t)
     upvote_form = VoteForm()
     if upvote_form.validate_on_submit():
         t = TinyText.query.get(upvote_form.tiny_text_id.data)
@@ -74,14 +71,20 @@ def view_single(id=None):
                 voted_list = session.pop('voted')
                 voted_list.append(t.id)
                 session['voted'] = voted_list
-                print(f'upvote for {t}')
-                print(session['voted'])
             else:
                 print(f'session already voted for {t.id}')
         return redirect(url_for('view_single', id=t.id))
 
     if t:
-        return render_template('single.html', tiny_text=t, upvote_form=upvote_form, past_upvotes=session.get('voted'))
+        delete_form = DeleteForm()
+        if delete_form.validate_on_submit():
+            t = TinyText.query.get(delete_form.delete_id.data)
+            if t and t.pw_hash and check_password_hash(t.pw_hash, delete_form.delete_pw.data):
+                db.session.delete(t)
+                db.session.commit()
+                flash('your post was deleted')
+                return redirect('/')
+        return render_template('single.html', tiny_text=t, upvote_form=upvote_form, past_upvotes=session.get('voted'), delete_form=delete_form)
     else:
         return redirect('/')
 
@@ -116,7 +119,6 @@ def create():
             flash('this is your tiny password:')
             flash(tiny_pw, category='pw')
             flash('you can use it to delete the post')
-            print(t.text)
             return redirect(url_for('view_single', id=t.id))
         else:
             flash('no.')

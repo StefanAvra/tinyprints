@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, IntegerField
+from wtforms import StringField, SubmitField, TextAreaField, IntegerField, PasswordField
 from wtforms.validators import DataRequired, Length, NumberRange
 
 
@@ -13,4 +13,11 @@ class TinyForm(FlaskForm):
 class VoteForm(FlaskForm):
     tiny_text_id = IntegerField('tiny_text_id', validators=[
                                 DataRequired(), NumberRange(min=1)])
-    submit_upvote = SubmitField('up')
+    submit_upvote = SubmitField('')
+
+
+class DeleteForm(FlaskForm):
+    delete_id = IntegerField('delete_id', validators=[
+                             DataRequired(), NumberRange(min=1)])
+    delete_pw = PasswordField('delete_pw', validators=[DataRequired()])
+    submit_deletion = SubmitField('')

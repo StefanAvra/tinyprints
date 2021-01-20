@@ -22,8 +22,9 @@ Flask will look for environment variables in ```.flaskenv```.
 
 ## Contributing
 Contributions are welcome!
+
 Open an issue if you found a bug or want to make a feature request.
-You can also check TODO.md for hints on what is planned / could be improved. Open an issue if you found something you want to improve.
+You can also check TODO.md for hints on what is planned / could be improved. Check if there is already an issue and if not open one if you've found something you want to improve.
 
 ## To do
 See [TODO.md](/TODO.md)

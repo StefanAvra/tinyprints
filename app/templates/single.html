@@ -4,7 +4,7 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-<h1>{{ tiny_text.title }}</h1>
+<h1></h1>
 {% if not tiny_text.voting_closed %}
 <form id="upvote-form" action="" method="POST" class="upvote" hidden>
     {{upvote_form.tiny_text_id(type='hidden')}}
@@ -30,6 +30,15 @@
         <div class="timestamp"><a href="/t/{{tiny_text.id}}">#{{ tiny_text.id }} - {{
                 tiny_text.created.strftime("%Y-%m-%d
                 %H:%M UTC") }}</a></div>
+        <div class="delete-container">
+            <span id="delete-hint" onclick="showDeletePWInput()">delete?</span>
+            <form id="delete-form" action="" method="post" hidden>
+                {{delete_form.hidden_tag()}}
+                {{delete_form.delete_id(hidden=True, value=tiny_text.id)}}
+                {{delete_form.delete_pw(placeholder='enter tiny password to delete')}}
+                {{delete_form.submit_deletion(hidden=True)}}
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}
