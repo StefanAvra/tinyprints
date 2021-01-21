@@ -32,7 +32,7 @@ function cleanText() {
 }
 
 
-function asciiOnly(str) {
+function allowedCharsOnly(str) {
     let clean = '';
     for (const c of str) {
         if (/^[\x00-\x7F]*$/.test(c)) {

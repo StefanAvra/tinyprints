@@ -52,8 +52,8 @@ def hot():
         handle_upvote(upvote_form, 'hot')
     t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=False).paginate(
         page, app.config['POSTS_PER_PAGE'], False)
-    site_data['next_page'] = url_for('index', p=t_list.next_num) if t_list.has_next else None
-    site_data['prev_page'] = url_for('index', p=t_list.prev_num) if t_list.has_prev else None
+    site_data['next_page'] = url_for('hot', p=t_list.next_num) if t_list.has_next else None
+    site_data['prev_page'] = url_for('hot', p=t_list.prev_num) if t_list.has_prev else None
     return render_template('index.html', tiny_texts=t_list.items, upvote_form=upvote_form, past_upvotes=session.get('voted'), site_data=site_data)
 
 
@@ -64,6 +64,8 @@ def top():
     site_data['curr_page'] = page
     t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=True).paginate(
         page, app.config['POSTS_PER_PAGE'], False)
+    site_data['next_page'] = url_for('top', p=t_list.next_num) if t_list.has_next else None
+    site_data['prev_page'] = url_for('top', p=t_list.prev_num) if t_list.has_prev else None
     return render_template('index.html', tiny_texts=t_list.items, site_data=site_data)
 
 
@@ -111,7 +113,7 @@ def create():
     ]
     if form.is_submitted():
         if form.validate():
-            t = TinyText(text=ascii(form.tiny_text.data), title=ascii(form.title.data))
+            t = TinyText(text=form.tiny_text.data, title=form.title.data)
             tiny_pw = f'{random.choice(WORDS)}#{random.randint(0, 999)}'
             t.pw_hash = generate_password_hash(tiny_pw)
             db.session.add(t)
