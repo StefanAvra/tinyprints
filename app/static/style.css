@@ -52,6 +52,7 @@ a {
 }
 #delete-hint {
     font-size: 0.7rem;
+    cursor: pointer;
 }
 #rules-toast {
     visibility: hidden;
@@ -97,6 +98,11 @@ a {
 @keyframes fadeout {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 20px; opacity: 0;}
+}
+
+.page-arrow {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 #footer {

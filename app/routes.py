@@ -23,38 +23,49 @@ def init_session():
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/new', methods=['GET', 'POST'])
-@app.route('/hot', methods=['GET', 'POST'])
 def index():
-    site_data = {
-        'title': '',
-        'msg': ''
-    }
+    site_data = init_site_data()
     page = request.args.get('p', 1, type=int)
+    site_data['curr_page'] = page
     upvote_form = VoteForm()
     if upvote_form.validate_on_submit():
-        t = TinyText.query.get(upvote_form.tiny_text_id.data)
-        if t and not t.voting_closed:
-            if t.id not in session.get('voted'):
-                t.up()
-                db.session.add(t)
-                db.session.commit()
-                voted_list = session.pop('voted')
-                voted_list.append(t.id)
-                session['voted'] = voted_list
-            else:
-                print(f'session already voted for {t.id}')
-        return redirect(url_for('index'))
+        handle_upvote(upvote_form, 'index')
     
-    rule = request.url_rule
-    if 'hot' in rule.rule:
-        t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=False).paginate(
-            page, app.config['POSTS_PER_PAGE'], False)
-    else:
-        if '/' == rule.rule:
-            site_data['title'] = 'home'
-        t_list = TinyText.query.order_by(TinyText.id.desc()).filter_by(voting_closed=False).paginate(
-            page, app.config['POSTS_PER_PAGE'], False)
+    if '/' == request.url_rule.rule:
+        site_data['title'] = 'home'
+    t_list = TinyText.query.order_by(TinyText.id.desc()).filter_by(voting_closed=False).paginate(
+        page, app.config['POSTS_PER_PAGE'], False)
+
+    site_data['next_page'] = url_for('index', p=t_list.next_num) if t_list.has_next else None
+    site_data['prev_page'] = url_for('index', p=t_list.prev_num) if t_list.has_prev else None
+
     return render_template('index.html', tiny_texts=t_list.items, upvote_form=upvote_form, past_upvotes=session.get('voted'), site_data=site_data)
+
+
+@app.route('/hot', methods=['GET', 'POST'])
+def hot():
+    site_data = init_site_data()
+    page = request.args.get('p', 1, type=int)
+    site_data['curr_page'] = page
+    upvote_form = VoteForm()
+    if upvote_form.validate_on_submit():
+        handle_upvote(upvote_form, 'hot')
+    t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=False).paginate(
+        page, app.config['POSTS_PER_PAGE'], False)
+    site_data['next_page'] = url_for('index', p=t_list.next_num) if t_list.has_next else None
+    site_data['prev_page'] = url_for('index', p=t_list.prev_num) if t_list.has_prev else None
+    return render_template('index.html', tiny_texts=t_list.items, upvote_form=upvote_form, past_upvotes=session.get('voted'), site_data=site_data)
+
+
+@app.route('/top')
+def top():
+    site_data = init_site_data()
+    page = request.args.get('p', 1, type=int)
+    site_data['curr_page'] = page
+    t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=True).paginate(
+        page, app.config['POSTS_PER_PAGE'], False)
+    return render_template('index.html', tiny_texts=t_list.items, site_data=site_data)
+
 
 @app.route('/t/')
 @app.route('/t/<id>', methods=['GET', 'POST'])
@@ -62,18 +73,7 @@ def view_single(id=None):
     t = TinyText.query.get(id)
     upvote_form = VoteForm()
     if upvote_form.validate_on_submit():
-        t = TinyText.query.get(upvote_form.tiny_text_id.data)
-        if t and not t.voting_closed:
-            if t.id not in session.get('voted'):
-                t.up()
-                db.session.add(t)
-                db.session.commit()
-                voted_list = session.pop('voted')
-                voted_list.append(t.id)
-                session['voted'] = voted_list
-            else:
-                print(f'session already voted for {t.id}')
-        return redirect(url_for('view_single', id=t.id))
+        handle_upvote(upvote_form, 'view_single', id)
 
     if t:
         delete_form = DeleteForm()
@@ -126,18 +126,32 @@ def create():
     return render_template('create.html', msg=random.choice(msgs), form=form)
 
 
-@app.route('/top')
-def top():
-    site_data = {
-        'title': 'past winners',
-        'msg': ''
-    }
-    page = request.args.get('p', 1, type=int)
-    t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=True).paginate(
-        page, app.config['POSTS_PER_PAGE'], False)
-    return render_template('index.html', tiny_texts=t_list.items, site_data=site_data)
-
 
 @app.route('/api')
 def api():
     return 'this is where the api goes'
+
+
+def init_site_data():
+    site_data = {
+        'title': '',
+        'msg': '',
+        'next_page': None,
+        'prev_page': None,
+        'curr_page': None
+    }
+    return site_data
+
+def handle_upvote(upvote_form, redirect_to='index', redirect_id=None):
+    t = TinyText.query.get(upvote_form.tiny_text_id.data)
+    if t and not t.voting_closed:
+        if t.id not in session.get('voted'):
+            t.up()
+            db.session.add(t)
+            db.session.commit()
+            voted_list = session.pop('voted')
+            voted_list.append(t.id)
+            session['voted'] = voted_list
+        else:
+            print(f'session already voted for {t.id}')
+    return redirect(url_for(redirect_to, p=redirect_id))
