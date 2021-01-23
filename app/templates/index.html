@@ -38,10 +38,14 @@
   <div class="pagination">
     {% if site_data.get('prev_page') %}
     <a class="page-arrow" href="{{site_data.get('prev_page')}}">◀️</a>
+    {% else %}
+    <div></div>
     {% endif %}
     <span class="curr-page">{{site_data.get('curr_page')}}</span>
     {% if site_data.get('next_page') %}
     <a class="page-arrow" href="{{site_data.get('next_page')}}">▶️</a>
+    {% else %}
+    <div></div>
     {% endif %}
   </div>
 {% endif %}

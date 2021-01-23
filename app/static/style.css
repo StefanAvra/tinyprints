@@ -7,9 +7,20 @@ a {
     color: black;
     text-decoration-line: none;
 }
-.nav a {
-    margin-left: 1rem;
-    margin-right: 1rem;
+.content {
+    width: min-content;
+    margin: auto;
+
+}
+.main-nav {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 1rem;
+    text-align: center;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 .upvote-possible {
     cursor: pointer;
@@ -100,13 +111,20 @@ a {
     to {bottom: 20px; opacity: 0;}
 }
 
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 .page-arrow {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
 
 #footer {
-    margin-top: 5rem;
+    margin: 5rem auto auto;
+    width: max-content;
     position: relative;
     bottom: 1rem;
 }

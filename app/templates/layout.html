@@ -11,27 +11,28 @@
 
 <body>
   <nav class="nav">
-    <a href="/">🏠 home</a>
-    <a href="/new">✨ new</a>
-    <a href="/hot">🔥 hot</a>
-    <a href="/top">🏆 top</a>
-    <a href="/create">📄 create</a>
+    <ul class="main-nav">
+      <li><a href="/">🏠 home</a></li>
+      <li><a href="/new">✨ new</a></li>
+      <li><a href="/hot">🔥 hot</a></li>
+      <li><a href="/top">🏆 top</a></li>
+      <li><a href="/create">📄 create</a></li>
+    </ul>
   </nav>
   {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul class="msgs">
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
+  {% if messages %}
+  <ul class="msgs">
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
   {% endwith %}
-  <div id="content">{% block content %}{% endblock %}</div>
+  <div class="content">{% block content %}{% endblock %}</div>
   <div id="footer">
     <p><a href="https://avra.io/" target="_blank" rel="noopener">👨🏻‍💻 avra</a></p>
   </div>
   <script src="{{ url_for('static', filename = 'tinyprint.js') }}"></script>
-
 </body>
 
 </html>

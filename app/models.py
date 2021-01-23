@@ -22,4 +22,9 @@ class TinyText(db.Model):
     def close(self):
         self.voting_closed = True
         self.voting_closed_timestamp = datetime.utcnow()
+
+    def open(self):
+        """This should not be needed in production."""
+        self.voting_closed = False
+        self.voting_closed_timestamp = None
     
