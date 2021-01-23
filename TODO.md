@@ -12,7 +12,6 @@ _I use this file during development to note thoughts on what to improve. If you 
         - printer has 384 dots per line but cannot heat them all up at once >> find out how many dots per line at once possible and dither image according to this. might be enough to do this server side only
         - actual editor for creating/drawing in browser without breaking functionality on phones?
             - this sketchpad seems to work on phones too: https://github.com/yiom/sketchpad. It is provided as an npm package but it looks like it is possible to just serve the sketchpad.js file.
-            
 - /
     - toplist (voting)
         - countdown

@@ -6,12 +6,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import TinyForm, VoteForm, DeleteForm
 from app.models import TinyText
 import random
+import secrets
+import string
 
-
-WORDS  = []
-
-with app.open_resource('words.txt', 'rt') as f:
-    WORDS = f.read().splitlines()    
 
 
 @app.before_request
@@ -114,7 +111,8 @@ def create():
     if form.is_submitted():
         if form.validate():
             t = TinyText(text=form.tiny_text.data, title=form.title.data)
-            tiny_pw = f'{random.choice(WORDS)}#{random.randint(0, 999)}'
+            abc = string.ascii_letters + string.digits
+            tiny_pw = ''.join(secrets.choice(abc) for i in range(10))
             t.pw_hash = generate_password_hash(tiny_pw)
             db.session.add(t)
             db.session.commit()
