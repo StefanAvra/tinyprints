@@ -12,8 +12,9 @@
 </form>
 {% endif %}
 <h1>{{ site_data['title'] }}</h1>
-{% if site_data.get('timer') %}
-  <div id="timer">{{ site_data['timer'] }}</div>
+{% if site_data.get('deadline') %}
+  <div id="deadline">next deadline: {{ site_data['deadline'].strftime("%Y-%m-%d
+    %H:%M UTC") }}</div>
 {% endif %}
 <div class="tiny-print-container">
   {% for tiny_text in tiny_texts %}

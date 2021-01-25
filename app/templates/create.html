@@ -4,7 +4,7 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-<h1>create a tiny print</h1>
+<h1>{{ site_data.get('title')}}</h1>
 <p>{{ msg }} </p>
 <div>
   <form action="" method="POST" id="createtinyprint">

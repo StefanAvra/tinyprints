@@ -28,3 +28,21 @@ class TinyText(db.Model):
         self.voting_closed = False
         self.voting_closed_timestamp = None
     
+    def to_dict(self):
+        d = {
+            'id': self.id,
+            'text': self.id,
+            'title': self.text,
+            'created': self.created,
+            'votes': self.votes,
+            'voting_closed_timestamp': self.voting_closed_timestamp
+        }
+        return d
+    
+
+class Deadline(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    deadline = db.Column(db.DateTime)
+
+    def __repr__(self):
+        return f'Deadline: {self.deadline}'

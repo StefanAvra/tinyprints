@@ -1,14 +1,14 @@
 from functools import wraps
-from flask import render_template, flash, redirect, session, url_for, request
+from flask import render_template, flash, redirect, session, url_for, request, jsonify
 from app import app, db
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.forms import TinyForm, VoteForm, DeleteForm
-from app.models import TinyText
+from app.models import TinyText, Deadline
 import random
 import secrets
 import string
-
+from datetime import datetime, timedelta
 
 
 @app.before_request
@@ -30,6 +30,8 @@ def index():
     
     if '/' == request.url_rule.rule:
         site_data['title'] = 'home'
+    else:
+        site_data['title'] = 'new'
     t_list = TinyText.query.order_by(TinyText.id.desc()).filter_by(voting_closed=False).paginate(
         page, app.config['POSTS_PER_PAGE'], False)
 
@@ -42,6 +44,8 @@ def index():
 @app.route('/hot', methods=['GET', 'POST'])
 def hot():
     site_data = init_site_data()
+    site_data['title'] = 'hottest prints'
+    site_data['deadline'] = Deadline.query.first().deadline
     page = request.args.get('p', 1, type=int)
     site_data['curr_page'] = page
     upvote_form = VoteForm()
@@ -108,6 +112,8 @@ def create():
         'don\'t spam',
         'what is something nobody knows?'
     ]
+    site_data = init_site_data()
+    site_data['title'] = 'create a tiny print'
     if form.is_submitted():
         if form.validate():
             t = TinyText(text=form.tiny_text.data, title=form.title.data)
@@ -123,13 +129,19 @@ def create():
         else:
             flash('no.')
             return redirect(url_for('create'))
-    return render_template('create.html', msg=random.choice(msgs), form=form)
+    return render_template('create.html', msg=random.choice(msgs), form=form, site_data=site_data)
 
 
 
 @app.route('/api')
-def api():
-    return 'this is where the api goes'
+def api_index():
+    request.args.get('', 1, type=int)
+    return 'hmmm'
+
+@app.route('/api/winner')
+def api_get_winner():
+    winner = TinyText.query.order_by(TinyText.voting_closed_timestamp.desc()).filter_by(voting_closed=True).first()
+    return jsonify(winner.to_dict())
 
 
 def init_site_data():
@@ -141,6 +153,7 @@ def init_site_data():
         'curr_page': None
     }
     return site_data
+
 
 def handle_upvote(upvote_form, redirect_to='index', redirect_id=None):
     t = TinyText.query.get(upvote_form.tiny_text_id.data)
@@ -155,3 +168,4 @@ def handle_upvote(upvote_form, redirect_to='index', redirect_id=None):
         else:
             print(f'session already voted for {t.id}')
     return redirect(url_for(redirect_to, p=redirect_id))
+
