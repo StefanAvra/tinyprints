@@ -45,7 +45,9 @@ def index():
 def hot():
     site_data = init_site_data()
     site_data['title'] = 'hottest prints'
-    site_data['deadline'] = Deadline.query.first().deadline
+    deadline = Deadline.query.first()
+    if deadline.deadline:
+        site_data['deadline'] = deadline.deadline
     page = request.args.get('p', 1, type=int)
     site_data['curr_page'] = page
     upvote_form = VoteForm()
