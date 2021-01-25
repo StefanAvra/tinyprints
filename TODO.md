@@ -19,11 +19,9 @@ _I use this file during development to note thoughts on what to improve. In case
 - not sure if I should remove db session on appcontext teardown manually
 - refactor to subtemplate for a post
 - /api
-    - get new winner/top for printing
 
 
 - change dates to moment (to show local timezone)
-- deploy to heroku
 - design
     - keep the app minimal
     - make sure it's responsive
