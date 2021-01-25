@@ -1,1 +1,1 @@
-web: flask db upgrade; gunicorn tinyprints:app
+web: flask db upgrade; gunicorn run:app
