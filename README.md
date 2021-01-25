@@ -1,6 +1,12 @@
 # tinyprints
-Flask web app that lets anyone create small prints that will be printed on my thermal printer.
+Flask web app that lets anyone create small prints that will be printed on my thermal printer. Deployed on [Heroku](https://tinyprints.herokuapp.com/).
 
+I have set up a thermal printer in our living room that prints on 58mm width receipt paper.
+We use it to create small prints of doodles, Pokemon or other insignificant things.
+I thought it would be cool if friends could send something to the printer.
+This web app allows users to submit some text (images will be added soon) and vote on submissions.
+
+On the **hot** tab submissions are ordered by votes. When the deadline will be reached the entry on top "wins" and will be downloaded by the printer.
 
 ## Usage
 
@@ -14,7 +20,7 @@ pip install -r requirements.txt
 
 You can run the app by executing ```flask run```. 
 
-### Dev
+### Development
 
 Flask will look for environment variables in ```.flaskenv```.
 
