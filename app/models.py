@@ -31,8 +31,8 @@ class TinyText(db.Model):
     def to_dict(self):
         d = {
             'id': self.id,
-            'text': self.id,
-            'title': self.text,
+            'text': self.text,
+            'title': self.title,
             'created': self.created,
             'votes': self.votes,
             'voting_closed_timestamp': self.voting_closed_timestamp
