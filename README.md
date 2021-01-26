@@ -26,6 +26,15 @@ Flask will look for environment variables in ```.flaskenv```.
 
 ```flask run``` uses ```run.py``` as an entry point. If you start ```flask shell``` the database and TinyText model will be avaliable as shell context ```db```  and ```TinyText``` respectively.
 
+#### Deployment on Heroku
+Necessary env vars can be set as:
+```sh
+heroku config:set FLASK_APP=run.py                             
+heroku config:set SECRET_KEY="you secret key here"
+heroku config:set AUTH_SECRET="you pw for api auth"                            
+
+```
+
 ## Contributing
 Contributions are welcome!
 

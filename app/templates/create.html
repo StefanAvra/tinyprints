@@ -17,6 +17,10 @@
   </form>
   <p class="rules">by posting you accept the <span onclick="showRules()">rules</span>.</p>
 </div>
+
+{% endblock %}
+
+{% block rules %}
 <div id="rules-toast">
   <ul id="rules-list">
     <li>Your post will be public, everyone can see it.</li>
@@ -25,6 +29,5 @@
     <li>Do not post spam/advertisements.</li>
     <li>Posts will be deleted if they do not conform to the rules or upset me.</li>
   </ul>
-  
 </div>
 {% endblock %}
