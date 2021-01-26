@@ -8,6 +8,9 @@ This web app allows users to submit some text (images will be added soon) and vo
 
 On the **hot** tab submissions are ordered by votes. When the deadline will be reached the entry on top "wins" and will be downloaded by the printer.
 
+There is also a repo for the code that runs on the printer:
+https://github.com/StefanAvra/tinyprints-printer
+
 ## Usage
 
 Clone this repo.
