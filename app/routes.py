@@ -1,6 +1,6 @@
 from functools import wraps
-from flask import render_template, flash, redirect, session, url_for, request, jsonify
-from app import app, db
+from flask import render_template, flash, redirect, session, url_for, request
+from app import app, db, api
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.forms import TinyForm, VoteForm, DeleteForm
@@ -30,6 +30,13 @@ def index():
     
     if '/' == request.url_rule.rule:
         site_data['title'] = 'home'
+        site_data['msg'] = '\n'.join([
+            'I\'ve set up a thermal printer in our living room that prints on 58mm width receipt paper.',
+            'We use it to create small prints of doodles, pokemon or other insignificant things.',
+            'I thought it would be cool if friends could send something to the printer.',
+            'You can submit some text (images will be added soon) and vote on submissions.',
+            'On the hot tab submissions are ordered by votes. When the deadline will be reached the entry on top will be printed.'
+        ])
     else:
         site_data['title'] = 'new'
     t_list = TinyText.query.order_by(TinyText.id.desc()).filter_by(voting_closed=False).paginate(
@@ -62,7 +69,7 @@ def hot():
 
 @app.route('/top')
 def top():
-    site_data = init_site_data()
+    site_data = init_site_data(title='top voted')
     page = request.args.get('p', 1, type=int)
     site_data['curr_page'] = page
     t_list = TinyText.query.order_by(TinyText.votes.desc()).filter_by(voting_closed=True).paginate(
@@ -114,8 +121,7 @@ def create():
         'don\'t spam',
         'what is something nobody knows?'
     ]
-    site_data = init_site_data()
-    site_data['title'] = 'create a tiny print'
+    site_data = init_site_data(title='create a tiny print', msg=random.choice(msgs))
     if form.is_submitted():
         if form.validate():
             t = TinyText(text=form.tiny_text.data, title=form.title.data)
@@ -131,25 +137,29 @@ def create():
         else:
             flash('no.')
             return redirect(url_for('create'))
-    return render_template('create.html', msg=random.choice(msgs), form=form, site_data=site_data)
+    return render_template('create.html', form=form, site_data=site_data)
 
 
 
 @app.route('/api')
 def api_index():
-    request.args.get('', 1, type=int)
     return 'hmmm'
 
-@app.route('/api/winner')
-def api_get_winner():
-    winner = TinyText.query.order_by(TinyText.voting_closed_timestamp.desc()).filter_by(voting_closed=True).first()
-    return jsonify(winner.to_dict())
+@app.route('/api/lastwinner')
+def api_get_last_winner():
+    return api.get_last_winner()
+
+@app.route('/api/close', methods=['POST'])
+def api_close_voting():
+    pw = request.form.get('pw')
+    return api.close_voting(pw)
 
 
-def init_site_data():
+def init_site_data(title='', msg=''):
+    """If this grows create a seperate class"""
     site_data = {
-        'title': '',
-        'msg': '',
+        'title': title,
+        'msg': msg,
         'next_page': None,
         'prev_page': None,
         'curr_page': None

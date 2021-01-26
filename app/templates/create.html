@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 <h1>{{ site_data.get('title')}}</h1>
-<p>{{ msg }} </p>
+<p>{{ site_data.get('msg') }} </p>
 <div>
   <form action="" method="POST" id="createtinyprint">
     {{ form.tiny_text(cols=32, rows=24, placeholder='you can use 32 characters, per line and 24 lines.',

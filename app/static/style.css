@@ -54,6 +54,10 @@ h1 {
 .msgs {
     list-style: none;
 }
+.msg {
+    color: #333;
+    line-height: 1.4em;
+}
 .rules {
     font-size: 0.8rem;
 }

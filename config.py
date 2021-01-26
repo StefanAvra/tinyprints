@@ -9,3 +9,7 @@ class Config(object):
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     POSTS_PER_PAGE = 4
+    AUTH_SECRET = os.environ.get('AUTH_SECRET') or 'dev'
+
+
+    

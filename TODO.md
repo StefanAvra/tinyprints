@@ -14,11 +14,12 @@ _I use this file during development to note thoughts on what to improve. In case
             - this sketchpad seems to work on phones too: https://github.com/yiom/sketchpad. It is provided as an npm package but it looks like it is possible to just serve the sketchpad.js file.
 - /
     - switch from textarea to pre for displaying text
-    - toplist (voting)
-        - countdown
+    - hot (voting)
+        - show a countdown?
 - not sure if I should remove db session on appcontext teardown manually
 - refactor to subtemplate for a post
-- /api
+- /api add proper auth
+- add http errors
 
 
 - change dates to moment (to show local timezone)
@@ -26,3 +27,6 @@ _I use this file during development to note thoughts on what to improve. In case
     - keep the app minimal
     - make sure it's responsive
     - favicon
+
+
+- in the end: rewrite everything to use a restful api and a SPA :)
