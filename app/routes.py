@@ -124,7 +124,7 @@ def create():
     site_data = init_site_data(title='create a tiny print', msg=random.choice(msgs))
     if form.is_submitted():
         if form.validate():
-            t = TinyText(text=form.tiny_text.data, title=form.title.data)
+            t = TinyText(text=cleanInput(form.tiny_text.data), title=cleanInput(form.title.data))
             abc = string.ascii_letters + string.digits
             tiny_pw = ''.join(secrets.choice(abc) for i in range(10))
             t.pw_hash = generate_password_hash(tiny_pw)
@@ -180,4 +180,8 @@ def handle_upvote(upvote_form, redirect_to='index', redirect_id=None):
         else:
             print(f'session already voted for {t.id}')
     return redirect(url_for(redirect_to, p=redirect_id))
+
+
+def cleanInput(s):
+    return ''.join((c for c in str(s) if ord(c) in range(32, 127)))
 
