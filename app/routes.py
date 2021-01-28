@@ -183,5 +183,5 @@ def handle_upvote(upvote_form, redirect_to='index', redirect_id=None):
 
 
 def cleanInput(s):
-    return ''.join((c for c in str(s) if ord(c) in range(32, 127)))
+    return ''.join((c for c in str(s) if ord(c) in range(32, 127) or [9, 10]))
 
