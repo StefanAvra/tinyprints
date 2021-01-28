@@ -1,6 +1,6 @@
 let prevText = null;
-let maxCols = 32;
-let maxRows = 24;
+const maxCols = 32;
+const maxRows = 24;
 
 
 // OK so there is wrap="hard" in textareas which does help a bit with lines that are longer than maxCols
