@@ -140,6 +140,10 @@ def create():
     return render_template('create.html', form=form, site_data=site_data)
 
 
+@app.route('/favicon.ico')
+def favicon():
+    return redirect(url_for('static', filename='favicon.ico'))
+
 
 @app.route('/api')
 def api_index():
