@@ -33,8 +33,8 @@ Flask will look for environment variables in ```.flaskenv```.
 Necessary env vars can be set as:
 ```sh
 heroku config:set FLASK_APP=run.py                             
-heroku config:set SECRET_KEY="you secret key here"
-heroku config:set AUTH_SECRET="you pw for api auth"                            
+heroku config:set SECRET_KEY="your secret key here"
+heroku config:set AUTH_SECRET="your pw for api auth"                            
 
 ```
 
