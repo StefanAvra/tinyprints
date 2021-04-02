@@ -13,7 +13,7 @@ h1 {
 .content {
     width: min-content;
     margin: auto;
-
+    min-width: 20em;
 }
 .main-nav {
     list-style: none;
