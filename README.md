@@ -1,3 +1,5 @@
+## NOTE: Web app is up but printer is currently down. Needed that Raspberry Pi for something else.
+
 # tinyprints
 Flask web app that lets anyone create small prints that will be printed on my thermal printer. Deployed on [Heroku](https://tinyprints.herokuapp.com/).
 
