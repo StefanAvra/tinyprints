@@ -1,4 +1,6 @@
-## NOTE: Web app is up but printer is currently down. Needed that Raspberry Pi for something else.
+### NOTE:
+- 2023-02-15 Web app is down because heroku does not have a free tier anymore. If there is any interest you can contact me / open an issue and I might look for hosting.
+- 2022-02-15 Web app is up but printer is currently down. Needed that Raspberry Pi for something else.
 
 # tinyprints
 Flask web app that lets anyone create small prints that will be printed on my thermal printer. Deployed on [Heroku](https://tinyprints.herokuapp.com/).
